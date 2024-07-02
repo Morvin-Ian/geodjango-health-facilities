@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'rest_framework_gis',
+    'drf_spectacular',
     
     'django.contrib.gis',
     'django.contrib.admin',
@@ -48,7 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
-    'facilities.app.FacilitiesConfig'
+    'facilities.apps.FacilitiesConfig'
 ]
 
 MIDDLEWARE = [
@@ -138,3 +139,21 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Health Facilities",
+    "DESCRIPTION":"API for Health facilities in Kenya",
+    "VERSION":"1.0.0"
+}
+
+LEAFLET_CONFIG = {
+    "DEFAULT_CENTER": (-1.30, 36.85),
+    "DEFAULT_ZOOM": 3,
+    "SCALE":"both",
+    "ATTRIBUTION_PREFIX":"Health Facilities - Kenya"
+}

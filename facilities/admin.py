@@ -1,3 +1,8 @@
 from django.contrib import admin
+from leaflet.admin import LeafletGeoAdmin
+from facilities.models import HealthFacilities
 
-# Register your models here.
+
+@admin.register(HealthFacilities)
+class HealthFacilitiesAdmin(LeafletGeoAdmin):
+    list_display = ('name', 'healthcare', 'geom')
