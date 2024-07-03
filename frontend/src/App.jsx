@@ -1,6 +1,5 @@
-// import { useState } from 'react'
+import { useState } from 'react'
 import { MapContainer, TileLayer, Popup, Marker } from "react-leaflet";
-import { Icon } from "leaflet";
 import { Alert, Spinner } from "react-bootstrap";
 import axios from "axios";
 import useSWR from "swr";
@@ -8,19 +7,6 @@ import './App.css';
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 
-export const icon = new Icon({
-  iconUrl:"marker.png",
-  iconSize:[30, 50],
-  iconAnchor:[25, 65],
-  shadowAnchor:[-3, -75]
-})
-
-const fetchFacilities = (url) => {
-  axios.get(url)
-  .then((res) => {
-    return res.data
-  })
-}
 
 function App() {
 
@@ -28,6 +14,7 @@ function App() {
   const zoom = 7;
   const { data, error } = useSWR("http://localhost:8000/api/facilities/", fetcher);
   const facilities = data && !error ? data : {};
+  const [activeFacility, setActiveFacility] = useState(null)
 
   if (error) {
     return <Alert variant="danger">Failure occured when Fetching Facilities!</Alert>;
@@ -43,15 +30,12 @@ function App() {
           width: "200px",
           height: "200px",
           marginTop: "15%",
-          marginLeft:"45%",
+          marginLeft: "45%",
           display: "block",
         }}
       />
     );
   }
-
-  console.log(data)
-
 
   return (
     <>
@@ -60,6 +44,28 @@ function App() {
           url="http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution="&copy; <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors"
         />
+        {
+          facilities.features.map((facility) => (
+            <Marker
+              key={facility.properties.name}
+              position={[facility.geometry.coordinates[1], facility.geometry.coordinates[0]]}
+              onClick={() => {
+                setActiveFacility(facility)
+              }}
+            >
+              <Popup
+                position={[facility.geometry.coordinates[1], facility.geometry.coordinates[0]]}
+                onClose={() => setActiveFacility(null)}
+              >
+                <div>
+                  <h6>Name: {facility.properties.name ? facility.properties.name: 'Unamed Facility'}</h6>
+                  <h6>Amenity: {facility.properties.amenity}</h6>
+                </div>
+              </Popup>
+
+            </Marker>
+          ))
+        }
       </MapContainer>
     </>
   )
