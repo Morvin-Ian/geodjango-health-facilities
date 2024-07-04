@@ -5,6 +5,7 @@
 
 ## Setup
     1. git clone 'https://github.com/OluochIan/kenyan-health-facilities.git'
+    2. Create a virtual environment.
     3. pip install -r requirements.txt
     4. cd frontend && npm i
 
