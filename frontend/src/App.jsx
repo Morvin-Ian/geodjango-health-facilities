@@ -47,7 +47,7 @@ const RoutingMachine = ({ start, end }) => {
 function App() {
   const center = [0.3556, 37.5833];
   const zoom = 7;
-  const { data, error } = useSWR("http://localhost:8000/api/facilities/", fetcher);
+  const { data, error } = useSWR("/api/facilities/", fetcher);
   const facilities = data && !error ? data : {};
   const [activeFacility, setActiveFacility] = useState(null);
   const [start, setStart] = useState('');

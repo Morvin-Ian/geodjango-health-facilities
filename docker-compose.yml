@@ -1,0 +1,61 @@
+services:
+  facilities-api:
+    build: .
+    container_name: facilities-api
+    command: ["./db-wait.sh", "db", "python", "manage.py", "runserver", "0.0.0.0:8000"]
+    volumes:
+      - .:/app
+    # ports:
+    #   - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+    networks:
+      - facilities-api
+
+  db:
+    image: postgis/postgis:13-3.1
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    networks:
+      - facilities-api
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "5173:5173"
+    command: npm run dev -- --host 0.0.0.0
+    depends_on:
+      - facilities-api
+    networks:
+      - facilities-api
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - 8080:80
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - facilities-api
+      - frontend
+    networks:
+      - facilities-api
+
+networks:
+  facilities-api:
+    driver: bridge
+
+volumes:
+  postgres_data:
