@@ -2,7 +2,7 @@ services:
   facilities-api:
     build: .
     container_name: facilities-api
-    command: ["./db-wait.sh", "db", "python", "manage.py", "runserver", "0.0.0.0:8000"]
+    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
     volumes:
       - .:/app
     # ports:
@@ -11,6 +11,7 @@ services:
       - .env
     depends_on:
       - db
+    restart: "on-failure"
     networks:
       - facilities-api
 
