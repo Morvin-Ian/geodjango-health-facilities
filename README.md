@@ -4,7 +4,7 @@
 
 
 ## Setup
-    1. git clone 'git@github.com:OluochIan/kenya-counties-borders.git'
+    1. git clone 'git@github.com:Morvin-Ian/kenya-health-facilities.git'
     
 ### Run Application
     - make build
