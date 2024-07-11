@@ -1,6 +1,6 @@
 # Kenya's Health Facilities
 
-![Screenshot from 2024-07-04 06-12-39](https://github.com/OluochIan/kenyan-health-facilities/assets/100572229/40a4fd86-8108-4b41-a8da-a9708fd5e0c1)
+![Screenshot from 2024-07-11 11-24-30](https://github.com/Morvin-Ian/kenyan-health-facilities/assets/78966128/5a4dc9a9-a997-45db-8875-0f0fa4ceb265)
 
 
 ## Setup
